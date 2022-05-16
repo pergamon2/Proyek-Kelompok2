@@ -3,6 +3,45 @@
 #include <string.h>
 
 int main(int argc, char * argv[]){
+    char usernameInput[20], passwordInput[20];
+    char usernamefile[20], passwordfile[20];
+    FILE * f; 
+    
+    // checking the CLA syntax
+    if(argc != 3){
+        printf("Failed login !!");
+        printf("\nHow to run the program: ./filename username password\n");
+    }
+
+    // copying the CLA to the variables
+    strcpy(usernameInput, argv[1]);
+    strcpy(passwordInput, argv[2]);
+
+    // opening the database file
+    f = fopen("D:\\New folder\\bahasa C\\databaseproyek\\loginproyek.bin","rb");
+
+    // checking whether the file can be open or not  
+    if(f == NULL){
+        printf("Errorr !!");
+        exit(1);
+    }
+
+    // reads data from the database file
+    fread(usernamefile,sizeof(char),sizeof(usernamefile)/sizeof(char),f);
+    fread(passwordfile,sizeof(char),sizeof(passwordfile)/sizeof(char),f);
+
+    if((strcmp(usernameInput, usernamefile) == 0) && (strcmp(passwordInput, passwordfile) == 0)){
+        printf("Succesfully login\n");
+        goto main;
+    }
+    else{
+        printf("Failed login, please re-login");
+        exit(1);
+    }
+    
+    ////////////////////////////////////////// Game Session ///////////////////////////////////////////////////
+    
+    main :
     int menu, menu1;
     
     option:
@@ -20,7 +59,7 @@ int main(int argc, char * argv[]){
         goto game;
     }
     if(menu == 2){
-        printf("This game is made to complete our final programming exam project\n");
+        printf("\nThis game is made to complete our final programming exam project\n");
         printf("The members who are involved are fagih akram, arrijalul khairi, nuzulurrahmah\n");
         printf("and furqan al ghifari. We hope you enjoy it. Have fun...\n\n");
         
