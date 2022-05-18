@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "soal.h"
 
 int main(int argc, char * argv[]){
     char usernameInput[20], passwordInput[20];
@@ -56,8 +57,62 @@ int main(int argc, char * argv[]){
     scanf("%d", &menu);
 
     if(menu == 1){
-        goto game;
+         for(soal=1; soal<=10; soal++){
+            
+            if(soal==1){
+                soal1();
+                uang[i]=2000000; 
+            }
+
+            else if(soal==2){
+                soal2();
+                uang[i]= 4000000;
+            }
+
+            else if(soal==3){
+                soal3();
+                uang[i]=8000000;
+            } 
+            
+            else if(soal==4){
+                soal4();
+                uang[i]=16000000;
+            }
+
+            else if(soal==5){
+                soal5();
+                uang[i]=32000000;
+            }
+
+            else if(soal==6){    
+                soal6();
+                uang[i]=64000000;
+            }
+
+            else if(soal==7){
+                soal7();
+                uang[i]=128000000;
+            }
+
+            else if(soal==8){
+                soal8();
+                uang[i]=256000000;
+            }
+
+            else if(soal==9){
+                soal9();    
+                uang[i]=512000000;
+            }
+
+            else{ 
+                soal10();
+                uang[i]=1000000000;
+
+            }
+            
+        }
     }
+    
     if(menu == 2){
         printf("\nThis game is made to complete our final programming exam project\n");
         printf("The members who are involved are fagih akram, arrijalul khairi, nuzulurrahmah\n");
@@ -74,8 +129,7 @@ int main(int argc, char * argv[]){
         exit(1);
     }
 
-    game: 
-    printf("Let's play");
+
 
     return 0;
 }
