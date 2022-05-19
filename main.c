@@ -3,47 +3,85 @@
 #include <string.h>
 
 int main(int argc, char * argv[]){
-    char usernameInput[20], passwordInput[20];
-    char usernamefile[20], passwordfile[20];
-    FILE * f; 
+
+    char username[20], password[20], repassword[20];
+    char usernamelog[20], passwordlog[20];
+    char input1;
+
+    if (argc == 3) {
+        goto login;
+    }
     
-    // checking the CLA syntax
-    if(argc != 3){
-        printf("Failed login !!");
-        printf("\nHow to run the program: ./filename username password\n");
+    FILE *reg;
+
+    printf("Welcome\n");
+    printf("Please Create account first (y/n): ");
+    scanf("%s", &input1);
+    getchar();
+
+    
+    if(input1 == 'y'){
+        reg = fopen("DataBase.bin", "wb");  
+        if(reg == NULL){
+            printf("Erorr.. !!\n");
+            exit(1);
+        }
+        printf("\n======== Register Session =========\n");
+        printf("->Enter your username: ");
+        gets(username);
+        printf("->Enter your password: ");
+        gets(password);
+        pass: 
+        printf("->Re-confirm password: ");
+        gets(repassword);
+        printf("===================================\n");
+
+        while(password != repassword){
+            if(strcmp(password, repassword) == 0){
+                printf("\nYour account has been created\n");
+                break;
+            }
+            else{
+                printf("\nInvalid password\n");
+                goto pass;
+            }
+        }
+        
+        fwrite(&username,sizeof(char),sizeof(username)/sizeof(char),reg);
+        fwrite(&password,sizeof(char),sizeof(password)/sizeof(char),reg);
+        
+        fclose(reg);
+        printf("Please login by : ./FileMainProgram.exe username password\n");
+
+        return EXIT_SUCCESS;
+    } else {
+        return EXIT_FAILURE;
     }
 
-    // copying the CLA to the variables
-    strcpy(usernameInput, argv[1]);
-    strcpy(passwordInput, argv[2]);
+    login:
+    strcpy(usernamelog, argv[1]);
+    strcpy(passwordlog, argv[2]);
 
-    // opening the database file
-    f = fopen("D:\\New folder\\bahasa C\\databaseproyek\\loginproyek.bin","rb");
+    reg = fopen("DataBase.bin", "rb");
 
-    // checking whether the file can be open or not  
-    if(f == NULL){
-        printf("Errorr !!");
+    if(reg == NULL){
+        printf("File didn't exist\n");
         exit(1);
     }
 
-    // reads data from the database file
-    fread(usernamefile,sizeof(char),sizeof(usernamefile)/sizeof(char),f);
-    fread(passwordfile,sizeof(char),sizeof(passwordfile)/sizeof(char),f);
+    fread(username, sizeof(char), sizeof(username)/sizeof(char), reg);
+    fread(password, sizeof(char), sizeof(password)/sizeof(char), reg);
 
-    if((strcmp(usernameInput, usernamefile) == 0) && (strcmp(passwordInput, passwordfile) == 0)){
-        printf("Succesfully login\n");
-        goto main;
-    }
-    else{
-        printf("Failed login, please re-login");
-        exit(1);
-    }
-    
-    ////////////////////////////////////////// Game Session ///////////////////////////////////////////////////
-    
-    main :
+    if(strcmp(username,usernamelog) == 0 && strcmp(password,passwordlog) == 0) {
+        printf("\tLogin Success\n\tWelcome My Friend\n");
+    } else{
+        printf("Usernama/Wrong Password\nPlease re-Login and input the correct Usernama/Password\n");
+        exit(2);
+    }    
+
+    fclose(reg);
+   
     int menu, menu1;
-    
     option:
     printf("\n");
     printf("\t==== Who Wants to be a Millionaire ====\n");
@@ -59,7 +97,7 @@ int main(int argc, char * argv[]){
         goto game;
     }
     if(menu == 2){
-        printf("\nThis game is made to complete our final programming exam project\n");
+        printf("This game is made to complete our final programming exam project\n");
         printf("The members who are involved are fagih akram, arrijalul khairi, nuzulurrahmah\n");
         printf("and furqan al ghifari. We hope you enjoy it. Have fun...\n\n");
         
@@ -69,8 +107,7 @@ int main(int argc, char * argv[]){
         if(menu1 == 1){
             goto option;
         }
-    }
-    if(menu == 3){
+    } else {
         exit(1);
     }
 
